@@ -3,7 +3,7 @@ import flask_excel as ex
 from flask import request
 from typing import OrderedDict
 from flask import Flask,request
-from countreview import count_text_review,count_excel_review
+from countreview import count_text_review, count_excel_review, count_product_review
 
 app= Flask(__name__)
 
@@ -20,6 +20,14 @@ def get():
         result=count_excel_review(f)
 
     return OrderedDict(result)
+
+
+@app.route('/product_sentiments', methods=['GET', 'POST'])
+def get_review():
+    url = request.get_json() 
+    result=count_product_review(url)
+    
+    return OrderedDict(result) 
 
 
 
