@@ -8,7 +8,6 @@ from countreview import count_text_review, count_excel_review, count_product_rev
 app= Flask(__name__)
 
 
-
 @app.route('/sentiment', methods=['GET', 'POST'])
 def get():
     content_type=request.headers.get('content-type')
@@ -28,7 +27,6 @@ def get_review():
     result=count_product_review(url)
     
     return OrderedDict(result) 
-
 
 
 if __name__ == "__main__":
