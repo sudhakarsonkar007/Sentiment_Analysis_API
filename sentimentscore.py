@@ -1,6 +1,6 @@
 from textblob import TextBlob
 
-def get_sentiment_score(data):
+def Get_Sentiment_Score(data):
     feedback=data
     blob=TextBlob(feedback)
     list=[]
