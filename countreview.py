@@ -1,7 +1,7 @@
 import pandas as pd
 from sentimentscore import get_sentiment_score
 from formatoutput import formatoutput
-from getreviews import get_review
+from getreviews import Get_Review_Dataframe
 
 
 def count_text_review(data):
@@ -42,7 +42,7 @@ def count_excel_review(file):
     return count
 
 def count_product_review(url):
-    file = get_review(url)
+    file = Get_Review_Dataframe(url)
     file.columns=['Reviews']
     list=file['Reviews'].values.tolist()
     
