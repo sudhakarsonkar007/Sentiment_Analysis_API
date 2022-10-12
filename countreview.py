@@ -41,7 +41,7 @@ def Count_Excel_Review(file):
     count=Format_Output(total_review,pos_count,neg_count,neu_count)
     return count
 
-def Count_product_Review(url):
+def Count_Product_Review(url):
     file = Get_Review_Dataframe(url)
     file.columns=['Reviews']
     list=file['Reviews'].values.tolist()
