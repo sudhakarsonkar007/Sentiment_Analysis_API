@@ -31,7 +31,7 @@ headers = {
 }
 
 
-def get_soup(url):
+def Get_Soup(url):
     r = requests.get(url, headers=headers,
     params={'url': url, 'wait': 2})
     soup = BeautifulSoup(r.text, 'html.parser')
@@ -39,12 +39,13 @@ def get_soup(url):
 
 
 # Initialize list to store reviews data later on
-
 reviewlist = []
+
 
 # Function : look for web-tags in our soup, then append our data to reviewList
 
 def Get_Reviews(soup):
+    # reviewlist = []
     reviews = soup.find_all('div', {'data-hook': 'review'})
     try:
         for item in reviews:
@@ -52,6 +53,7 @@ def Get_Reviews(soup):
             reviewlist.append(review)
     except:
         pass
+    
 
 def Get_Url(productUrl):
     shortProductUrl = productUrl[0: productUrl.index("ref")]
@@ -62,21 +64,17 @@ def Get_Url(productUrl):
     return finalUrl
 
 # loop through :x many pages, or until the css selector found only on the last page is found (when the next page button is greyed) 
-
 def Get_Review_Dataframe(productUrl):
     finalUrl=Get_Url(productUrl)
-    for x in range(1, 10):
-        soup = get_soup(finalUrl+'{x}')
-        print(f'Getting page: {x}')
+    for x in range(0, 10):
+        soup = Get_Soup(finalUrl+'{x}')
         Get_Reviews(soup)
-        print(len(reviewlist))
         if not soup.find('li', {'class': 'a-disabled a-last'}):
             pass
         else:
             break
         
     # Save results to a dataframe
-
     df = pd.DataFrame(reviewlist)
     df.replace("", np.NaN, inplace=True)
     df = df.dropna()
