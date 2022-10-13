@@ -38,14 +38,8 @@ def Get_Soup(url):
     return soup
 
 
-# Initialize list to store reviews data later on
-reviewlist = []
-
-
-# Function : look for web-tags in our soup, then append our data to reviewList
-
 def Get_Reviews(soup):
-    # reviewlist = []
+    reviewlist = []
     reviews = soup.find_all('div', {'data-hook': 'review'})
     try:
         for item in reviews:
@@ -53,7 +47,8 @@ def Get_Reviews(soup):
             reviewlist.append(review)
     except:
         pass
-    
+    return reviewlist
+
 
 def Get_Url(productUrl):
     shortProductUrl = productUrl[0: productUrl.index("ref")]
@@ -65,16 +60,16 @@ def Get_Url(productUrl):
 
 # loop through :x many pages, or until the css selector found only on the last page is found (when the next page button is greyed) 
 def Get_Review_Dataframe(productUrl):
+    reviewlist=[]
     finalUrl=Get_Url(productUrl)
     for x in range(0, 10):
         soup = Get_Soup(finalUrl+'{x}')
-        Get_Reviews(soup)
+        review=Get_Reviews(soup)
+        reviewlist.extend(review)
         if not soup.find('li', {'class': 'a-disabled a-last'}):
             pass
         else:
             break
-        
-    # Save results to a dataframe
     df = pd.DataFrame(reviewlist)
     df.replace("", np.NaN, inplace=True)
     df = df.dropna()
